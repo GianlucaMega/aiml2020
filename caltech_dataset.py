@@ -6,6 +6,8 @@ import os
 import os.path
 import sys
 
+from pathlib import Path
+
 
 def pil_loader(path):
     # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
@@ -20,7 +22,6 @@ class Caltech(VisionDataset):
 
         self.split = split # This defines the split you are going to use
                            # (split files are called 'train.txt' and 'test.txt')
-
         '''
         - Here you should implement the logic for reading the splits files and accessing elements
         - If the RAM size allows it, it is faster to store all data in memory
@@ -29,6 +30,24 @@ class Caltech(VisionDataset):
           through the index
         - Labels should start from 0, so for Caltech you will have lables 0...100 (excluding the background class) 
         '''
+        images = []
+        labels = []
+        if split == "train" :
+            fp = open("../Caltech101/train.txt", "r")
+        else:
+            fp = open("../Caltech101/test.txt","r")
+
+        for img in fp.readlines()
+            label = Path(img).parts[0]
+            if label=="BACKGROUND_Google"
+                continue
+            if label not in labels
+                labels.append(label)
+            images.append( (pil_loader(".."+root+'/'+img), labels.index(label)) )
+
+
+
+
 
     def __getitem__(self, index):
         '''
@@ -39,7 +58,7 @@ class Caltech(VisionDataset):
             tuple: (sample, target) where target is class_index of the target class.
         '''
 
-        image, label = ... # Provide a way to access image and label via index
+        image, label = images[index] # Provide a way to access image and label via index
                            # Image should be a PIL Image
                            # label can be int
 
@@ -54,5 +73,5 @@ class Caltech(VisionDataset):
         The __len__ method returns the length of the dataset
         It is mandatory, as this is used by several other components
         '''
-        length = ... # Provide a way to get the length (number of elements) of the dataset
+        length = len(images) # Provide a way to get the length (number of elements) of the dataset
         return length
