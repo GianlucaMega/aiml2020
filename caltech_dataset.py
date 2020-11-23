@@ -35,9 +35,9 @@ class Caltech(VisionDataset):
         '''
 
         if split == "train" :
-            fp = open("../Caltech101/train.txt", "r")
+            fp = open("Caltech101/train.txt", "r")
         else:
-            fp = open("../Caltech101/test.txt","r")
+            fp = open("Caltech101/test.txt","r")
 
         for img in fp.readlines():
             label = Path(img).parts[0]
@@ -45,7 +45,7 @@ class Caltech(VisionDataset):
                 continue
             if label not in self.labels:
                 self.labels.append(label)
-            self.images.append( (pil_loader(".."+root+'/'+img), self.labels.index(label)) )
+            self.images.append( (pil_loader(root+'/'+img), self.labels.index(label)) )
 
 
 
