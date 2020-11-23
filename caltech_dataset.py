@@ -17,6 +17,9 @@ def pil_loader(path):
 
 
 class Caltech(VisionDataset):
+    images = []
+    labels = []
+
     def __init__(self, root, split='train', transform=None, target_transform=None):
         super(Caltech, self).__init__(root, transform=transform, target_transform=target_transform)
 
@@ -30,20 +33,19 @@ class Caltech(VisionDataset):
           through the index
         - Labels should start from 0, so for Caltech you will have lables 0...100 (excluding the background class) 
         '''
-        images = []
-        labels = []
+
         if split == "train" :
             fp = open("../Caltech101/train.txt", "r")
         else:
             fp = open("../Caltech101/test.txt","r")
 
-        for img in fp.readlines()
+        for img in fp.readlines():
             label = Path(img).parts[0]
-            if label=="BACKGROUND_Google"
+            if label=="BACKGROUND_Google":
                 continue
-            if label not in labels
-                labels.append(label)
-            images.append( (pil_loader(".."+root+'/'+img), labels.index(label)) )
+            if label not in self.labels:
+                self.labels.append(label)
+            self.images.append( (pil_loader(".."+root+'/'+img), self.labels.index(label)) )
 
 
 
@@ -58,7 +60,7 @@ class Caltech(VisionDataset):
             tuple: (sample, target) where target is class_index of the target class.
         '''
 
-        image, label = images[index] # Provide a way to access image and label via index
+        image, label = self.images[index] # Provide a way to access image and label via index
                            # Image should be a PIL Image
                            # label can be int
 
@@ -73,5 +75,5 @@ class Caltech(VisionDataset):
         The __len__ method returns the length of the dataset
         It is mandatory, as this is used by several other components
         '''
-        length = len(images) # Provide a way to get the length (number of elements) of the dataset
+        length = len(self.images) # Provide a way to get the length (number of elements) of the dataset
         return length
