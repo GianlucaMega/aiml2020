@@ -22,7 +22,7 @@ class Caltech(VisionDataset):
 
     def __init__(self, root, split='train', transform=None, target_transform=None):
         super(Caltech, self).__init__(root, transform=transform, target_transform=target_transform)
-        print(os.getpwd()+"\n")
+
         self.split = split # This defines the split you are going to use
                            # (split files are called 'train.txt' and 'test.txt')
         '''
@@ -45,7 +45,7 @@ class Caltech(VisionDataset):
                 continue
             if label not in self.labels:
                 self.labels.append(label)
-            self.images.append( (pil_loader("/content/"+root+'/'+img), self.labels.index(label)) )
+            self.images.append( (pil_loader("/content/"+root+'/'+img.rstrip()), self.labels.index(label)) )
 
 
 
