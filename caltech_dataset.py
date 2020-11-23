@@ -22,7 +22,7 @@ class Caltech(VisionDataset):
 
     def __init__(self, root, split='train', transform=None, target_transform=None):
         super(Caltech, self).__init__(root, transform=transform, target_transform=target_transform)
-
+        print(os.getpwd()+"\n")
         self.split = split # This defines the split you are going to use
                            # (split files are called 'train.txt' and 'test.txt')
         '''
@@ -35,9 +35,9 @@ class Caltech(VisionDataset):
         '''
 
         if split == "train" :
-            fp = open("Caltech101/train.txt", "r")
+            fp = open("../Caltech101/train.txt", "r")
         else:
-            fp = open("Caltech101/test.txt","r")
+            fp = open("../Caltech101/test.txt","r")
 
         for img in fp.readlines():
             label = Path(img).parts[0]
