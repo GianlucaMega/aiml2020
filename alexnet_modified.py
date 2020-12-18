@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn
-from .utils import load_state_dict_from_url
+from torch.hub import load_state_dict_from_url
 from typing import Any
+from torch.autograd import Function
 
 
 __all__ = ['AlexNet', 'alexnet']
@@ -53,7 +54,7 @@ class AlexNet(nn.Module):
             nn.ReLU(inplace=True),
             nn.Linear(4096, num_classes),
         )
-        self.dom_classifier = nn.Sequential(
+        self.add_module('dom_classifier', nn.Sequential(
             nn.Dropout(),
             nn.Linear(256 * 6 * 6, 4096),
             nn.ReLU(inplace=True),
@@ -61,7 +62,7 @@ class AlexNet(nn.Module):
             nn.Linear(4096, 4096),
             nn.ReLU(inplace=True),
             nn.Linear(4096, num_classes),
-        )
+        ))
 
     def forward(self, x: torch.Tensor, alpha = None) -> torch.Tensor:
         x = self.features(x)
