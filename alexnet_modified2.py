@@ -61,12 +61,11 @@ class alexnet2(nn.Module):
             nn.Linear(4096, 4096),
             nn.ReLU(inplace=True),
             nn.Linear(4096, 1000),)
-        state_dict = load_state_dict_from_url(model_urls['alexnet'],
-                                              progress=progress)
+        state_dict = load_state_dict_from_url(model_urls['alexnet'])
         self.load_state_dict(state_dict,strict=False)
 
     def forward(self, x, alpha=None):
-        features = self.features(x)
+        x = self.features(x)
         x = self.avgpool(x)
         x = torch.flatten(x, 1)
         # Flatten the features:
